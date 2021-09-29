@@ -54,11 +54,8 @@ public class Doctor : Unit
         Attack();
     }
 
-    protected override void Death()
+    public override void Death()
     {
-        if (HealthBar.fill <= 0)
-        {
-            gameObject.SetActive(false);
-        }
+       gameObject.SetActive(false);
     }
 }

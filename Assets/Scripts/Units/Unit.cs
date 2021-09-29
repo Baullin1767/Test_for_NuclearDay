@@ -13,8 +13,6 @@ public class Unit : MonoBehaviour
     [SerializeField]
     protected HealthBar EnemyHealthBar;
     [SerializeField]
-    protected HealthBar HealthBar;
-    [SerializeField]
     protected float speed;
 
     protected float movement;
@@ -82,6 +80,6 @@ public class Unit : MonoBehaviour
 
     protected virtual void Attack() { }
 
-    protected virtual void Death() { }
+    public virtual void Death() { }
 
 }

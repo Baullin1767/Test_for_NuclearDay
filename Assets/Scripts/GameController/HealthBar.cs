@@ -7,6 +7,8 @@ public class HealthBar : MonoBehaviour
 {
     [SerializeField]
     Image bar;
+    [SerializeField]
+    Unit unit;
 
     public float fill;
 
@@ -29,6 +31,11 @@ public class HealthBar : MonoBehaviour
     public void Healing() 
     {
         fill += Time.deltaTime * 0.05f;
+    }
+
+    public void Death() 
+    {
+        unit.Death();
     }
 
 }

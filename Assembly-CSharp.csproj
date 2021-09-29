@@ -58,8 +58,10 @@
     <Compile Include="Assets\Scripts\GameController\HealthBar.cs" />
     <Compile Include="Assets\Scripts\Units\Character\Character.cs" />
     <Compile Include="Assets\Scripts\Units\Unit.cs" />
-    <Compile Include="Assets\Scripts\GameController\CameraController.cs" />
     <Compile Include="Assets\Scripts\Units\Character\AttackZone.cs" />
+    <Compile Include="Assets\Scripts\GameController\CameraController.cs" />
+    <Compile Include="Assets\Scripts\GameController\Fader.cs" />
+    <Compile Include="Assets\Scripts\GameController\GameController.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Spine\Spine\version.txt" />

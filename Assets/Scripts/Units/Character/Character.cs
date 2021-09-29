@@ -10,6 +10,8 @@ public class Character : Unit
     GameObject attention;
     [SerializeField]
     GameObject gameOverUI;
+    [SerializeField]
+    GameController gameController;
 
     protected override void Start()
     {
@@ -75,12 +77,9 @@ public class Character : Unit
         SetUnitState("Attack");
     }
 
-    protected override void Death()
+    public override void Death()
     {
-        if (HealthBar.fill <= 0)
-        {
-            gameOverUI.SetActive(true);
-            gameObject.SetActive(false);
-        }
+        gameController.LoseGame();
+        gameObject.SetActive(false);
     }
 }
