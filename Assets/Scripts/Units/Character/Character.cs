@@ -1,16 +1,32 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Character : Unit
 {
+    public bool canAttack = false;
+    [SerializeField]
+    GameObject attention;
+    [SerializeField]
+    GameObject gameOverUI;
+
+    protected override void Start()
+    {
+        base.Start();
+        attention.SetActive(false);
+    }
+
     protected override void Update()
     {
         Walk();
     }
+    public void Direction(int InputAxis) 
+    {
+        movement = InputAxis;
+    }
     protected override void Walk()
     {
-        movement = Input.GetAxis("Horizontal");
         rb.velocity = new Vector2(movement * speed, rb.velocity.y);
         if (movement != 0)
         {
@@ -32,10 +48,22 @@ public class Character : Unit
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.Mouse0))
+        if (Input.GetKeyDown(KeyCode.Mouse0) && canAttack)
         {
             Attack();
         }
+        else if (Input.GetKeyDown(KeyCode.Mouse0))
+        {
+            StartCoroutine(nameof(Attention));
+            
+        }
+    }
+
+    IEnumerator Attention()
+    {
+        attention.SetActive(true);
+        yield return new WaitForSeconds(1f);
+        attention.SetActive(false);
     }
 
     protected override void Attack()
@@ -45,5 +73,14 @@ public class Character : Unit
             previousState = currentState;
         }
         SetUnitState("Attack");
+    }
+
+    protected override void Death()
+    {
+        if (HealthBar.fill <= 0)
+        {
+            gameOverUI.SetActive(true);
+            gameObject.SetActive(false);
+        }
     }
 }

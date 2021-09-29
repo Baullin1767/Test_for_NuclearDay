@@ -11,13 +11,18 @@ public class Unit : MonoBehaviour
     [SerializeField]
     protected AnimationReferenceAsset idle, walking, attack;
     [SerializeField]
-    protected float hp, damage, speed;
-    protected string currentState, currentAnimatoin, previousState;
+    protected HealthBar EnemyHealthBar;
+    [SerializeField]
+    protected HealthBar HealthBar;
+    [SerializeField]
+    protected float speed;
+
     protected float movement;
+    protected string currentState, currentAnimatoin, previousState;
 
     protected Rigidbody2D rb;
 
-    protected void Start()
+    protected virtual void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         currentState = "Idle";
@@ -32,17 +37,24 @@ public class Unit : MonoBehaviour
         {
             return;
         }
-        Spine.TrackEntry animationEntry = skeletonAnimation.state.SetAnimation(0, animation, loop);
-        animationEntry.TimeScale = timeScale;
-        animationEntry.Complete += AnimationEntry_Complete;
+        skeletonAnimation.state.SetAnimation(0, animation, loop).TimeScale = timeScale;
         currentAnimatoin = animation.name;
     }
 
+    
+
+    protected void AddAnimation(int index, AnimationReferenceAsset animation, bool loop, float timeScale)
+    {
+        Spine.TrackEntry AnimationEntry = skeletonAnimation.state.AddAnimation(index, animation, loop, 0);        
+        AnimationEntry.TimeScale = timeScale;
+        AnimationEntry.Complete += AnimationEntry_Complete;
+    }
     private void AnimationEntry_Complete(Spine.TrackEntry trackEntry)
     {
         if (currentState.Equals("Attack"))
         {
             SetUnitState(previousState);
+            EnemyHealthBar.Damage();
         }
     }
 
@@ -54,11 +66,12 @@ public class Unit : MonoBehaviour
         }
         else if (state.Equals("Attack"))
         {
-            SetAnimation(attack, false, 1.3f);
+            AddAnimation(1, attack, false, 1.2f);
         }
         else
         {
             SetAnimation(idle, true, 1f);
+            skeletonAnimation.state.ClearTrack(1);
         }
 
         currentState = state;
